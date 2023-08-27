@@ -92,9 +92,14 @@ public class Model {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
-
-
+        int size = b.size();
+        for (int count_rows = 0; count_rows < size; count_rows++){
+            for (int count_columns = 0; count_columns < size; count_columns++){
+                if (b.tile(count_rows,count_columns) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
