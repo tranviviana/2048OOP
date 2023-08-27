@@ -1,5 +1,6 @@
 package game2048;
 
+import java.lang.reflect.Array;
 import java.util.Formatter;
 
 
@@ -127,48 +128,64 @@ public class Model {
      * 1. There is at least one empty space on the board.
      * 2. There are two adjacent tiles with the same value.
      */
+    /*
+    check that two adjacent tiles exist
+    check that the two adjacent tiles are equal
+     */
+
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function
-        return emptySpaceExists(b) || twoAdjacentYTiles(b,b.size() - 1) || twoAdjacentXTiles(b);
+        return emptySpaceExists(b) || Ydirection(b)|| Xdirection(b);
     }
-    public static boolean twoAdjacentYTiles(Board b, int adjacentSize){
-        int adjacentYSize = b.size() - 1;
-        int correctnessTracker = 0;
-        for (int columns = 0; columns < b.size(); columns++) {
-            if (b.nextExistingTile(b, 0, columns)){
-                correctnessTracker++;
-            }
-        }
-        if (correctnessTracker == b.size()){
-            return true;
-        }
-        return false;
-    }
-    public boolean nextExistingTile(Board b, translation, shiftingTile){
 
-    }
-    public static boolean twoAdjacentXTiles(Board b){
-        int adjacentXSize = b.size() - 1;
-        int trackedTile = 0;
-        int nextTile = 1;
-        for (int rows = 0; rows < b.size(); rows++) {
-            while (trackedTile < adjacentXSize) {
-                if (b.tile(rows,trackedTile) != null){
-                    if (b.tile(rows,nextTile) != null && nextTile <= adjacentXSize){
-                        if (b.tile(rows,trackedTile).value() == b.tile(rows,nextTile).value()){
-                            System.out.println("true track rows");
-                            return true;
-                        }
-                        trackedTile = nextTile;
-                        nextTile++;
+    public static boolean Ydirection(Board b) {
+        for (int column = 0; column < b.size(); column++) {
+            for (int row = 0; row < b.size(); row++) {
+                if (b.tile(row, column) != null && row + 1 < b.size()) {
+                    int [] newTile = nextTile(b,row + 1, column, true);
+                    if (b.tile(row, column).value() == b.tile(newTile[0],newTile[1]).value()){
+                        return true;
                     }
-                    nextTile++;
+                    row = newTile[0];
+                    column = newTile[1];
                 }
-                trackedTile++;
             }
         }
         return false;
     }
+    public static boolean Xdirection(Board b) {
+        for (int row = 0; row < b.size(); row++) {
+            for (int column = 0; column < b.size(); column++) {
+                if (b.tile(row, column) != null && column + 1 < b.size()) {
+                    int [] newTile = nextTile(b,row, column + 1, false);
+                    if (b.tile(row, column).value() == b.tile(newTile[0],newTile[1]).value()){
+                        return true;
+                    }
+                    row = newTile[0];
+                    column = newTile[1];
+                }
+            }
+        }
+        return false;
+    }
+
+    public static int[] nextTile(Board b,int row, int column, boolean notMovingColumn){
+        while (b.tile(row,column) == null && row < b.size() && column < b.size()){
+            if (notMovingColumn){
+                row++;
+            }
+            else{
+                column++;
+            }
+        }
+        return new int[]{row,column};
+    }
+
+
+
+
+
+
 
 
     /** Tilt the board toward SIDE.
