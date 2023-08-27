@@ -200,14 +200,30 @@ public class Model {
      *    value, then the leading two tiles in the direction of motion merge,
      *    and the trailing tile does not.
      * */
+
+    /*
+ looking at one column
+ if the top corner exists
+ look at the next tile that exists in the row,
+ see if it can merge
+ move
+ set the tracked tile as the one look at the new one
+ move down
+
+  */
     public void tilt(Side side) {
         // TODO: Modify this.board (and if applicable, this.score) to account
-        // for the tilt to the Side SIDE.
-
-
-        checkGameOver();
+        int row = 0;
+        this.board.setViewingPerspective(side);
+        for (int nonMovingColumns = 0; nonMovingColumns < this.board.size(); nonMovingColumns++) {
+            if (tile(row, nonMovingColumns) != null && row != 0) {
+            }
+        }
     }
-
+    public static int[] convertToGrid (int[] oldLocation, int[] newLocation){
+        int[] test = {1,2};
+        return test;
+            }
 
     @Override
     public String toString() {
