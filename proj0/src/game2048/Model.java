@@ -128,11 +128,48 @@ public class Model {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
-
-
+        // TODO: Fill in this function
+        return emptySpaceExists(b) || twoAdjacentYTiles(b,b.size() - 1) || twoAdjacentXTiles(b);
+    }
+    public static boolean twoAdjacentYTiles(Board b, int adjacentSize){
+        int adjacentYSize = b.size() - 1;
+        int correctnessTracker = 0;
+        for (int columns = 0; columns < b.size(); columns++) {
+            if (b.nextExistingTile(b, 0, columns)){
+                correctnessTracker++;
+            }
+        }
+        if (correctnessTracker == b.size()){
+            return true;
+        }
         return false;
     }
+    public boolean nextExistingTile(Board b, translation, shiftingTile){
+
+    }
+    public static boolean twoAdjacentXTiles(Board b){
+        int adjacentXSize = b.size() - 1;
+        int trackedTile = 0;
+        int nextTile = 1;
+        for (int rows = 0; rows < b.size(); rows++) {
+            while (trackedTile < adjacentXSize) {
+                if (b.tile(rows,trackedTile) != null){
+                    if (b.tile(rows,nextTile) != null && nextTile <= adjacentXSize){
+                        if (b.tile(rows,trackedTile).value() == b.tile(rows,nextTile).value()){
+                            System.out.println("true track rows");
+                            return true;
+                        }
+                        trackedTile = nextTile;
+                        nextTile++;
+                    }
+                    nextTile++;
+                }
+                trackedTile++;
+            }
+        }
+        return false;
+    }
+
 
     /** Tilt the board toward SIDE.
      *
