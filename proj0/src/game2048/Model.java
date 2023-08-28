@@ -211,15 +211,21 @@ public class Model {
         for (int columnPerspective = 0; columnPerspective < this.board.size(); columnPerspective++){
             int tileLocation = this.board.size() - 1;
             for (int row = this.board.size() - 1; row >= 0; row--){
-                if((tile(columnPerspective, row) != null) && (row <= tileLocation)){
+                if((tile(columnPerspective, row) != null) && (row < tileLocation)){
                     if (null == tile(columnPerspective, tileLocation)){
                         board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
-                    }  else if (board.move(columnPerspective, tileLocation, tile(columnPerspective, row))){
-                        tileLocation -= 1;
                     }
-                    else if (tile(columnPerspective, tileLocation).value() != tile(columnPerspective, row).value()){
-                        tileLocation -= 1;
-                        board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
+                    else if (tile(columnPerspective, tileLocation) != null) {
+                        System.out.println(tileLocation);
+                        System.out.println(row);
+                        if (tile(columnPerspective, tileLocation).value() == tile(columnPerspective, row).value()) {
+                            board.move(columnPerspective, tileLocation , tile(columnPerspective, row));
+                            tileLocation -= 1;
+                        }
+                        else if (tile(columnPerspective, tileLocation).value() != tile(columnPerspective, row).value()) {
+                            tileLocation -= 1;
+                            board.move(columnPerspective, tileLocation, tile(columnPerspective, row));
+                        }
                     }
                 }
             }
