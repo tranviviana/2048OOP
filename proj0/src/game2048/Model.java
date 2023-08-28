@@ -1,6 +1,7 @@
 package game2048;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
@@ -208,26 +209,25 @@ public class Model {
     public void tilt(Side side) {
         // TODO: Modify this.board (and if applicable, this.score) to account
         this.board.setViewingPerspective(side);
+        ArrayList<Integer> MaxScore = new ArrayList<>();
 
 
-        for (int columnPerspective = 0; columnPerspective < this.board.size(); columnPerspective++){
+        for (int columnPerspective = 0; columnPerspective < this.board.size(); columnPerspective++) {
             int tileLocation = this.board.size() - 1;
 
-            for (int row = this.board.size() - 1; row >= 0; row--){
-                if((tile(columnPerspective, row) != null) && (row < tileLocation)){
-                    if (null == tile(columnPerspective, tileLocation)){
-                        board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
-                    }
-                    else if (tile(columnPerspective, tileLocation) != null) {
+            for (int row = this.board.size() - 1; row >= 0; row--) {
+                if ((tile(columnPerspective, row) != null) && (row < tileLocation)) {
+                    if (null == tile(columnPerspective, tileLocation)) {
+                        board.move(columnPerspective, tileLocation, tile(columnPerspective, row));
+                    } else if (tile(columnPerspective, tileLocation) != null) {
                         System.out.println(tileLocation);
                         System.out.println(row);
                         if (tile(columnPerspective, tileLocation).value() == tile(columnPerspective, row).value()) {
-
-                            board.move(columnPerspective, tileLocation , tile(columnPerspective, row));
+                            board.move(columnPerspective, tileLocation, tile(columnPerspective, row));
+                            MaxScore.add(tile(columnPerspective, tileLocation).value());
                             tileLocation -= 1;
 
-                        }
-                        else if (tile(columnPerspective, tileLocation).value() != tile(columnPerspective, row).value()) {
+                        } else if (tile(columnPerspective, tileLocation).value() != tile(columnPerspective, row).value()) {
                             tileLocation -= 1;
                             board.move(columnPerspective, tileLocation, tile(columnPerspective, row));
                         }
@@ -235,9 +235,15 @@ public class Model {
                 }
             }
         }
+        int total = this.score();
+        for (int i = 0; i < MaxScore.size(); i++) {
+            total = total + MaxScore.get(i);
+        }
+        this.score = total;
         this.board.setViewingPerspective(Side.NORTH);
         checkGameOver();
     }
+
 
 
 
