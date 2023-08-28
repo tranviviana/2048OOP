@@ -209,21 +209,33 @@ public class Model {
         this.board.setViewingPerspective(side);
         int tileLocation = this.board.size() - 1;
         for (int columnPerspective = 0; columnPerspective < this.board.size(); columnPerspective++){
+
             for (int row = this.board.size() - 1; row >= 0; row--){
-                if(tile(columnPerspective,row) != null && row < tileLocation){
-                    moveLocation(tileLocation, row, columnPerspective);
+                if((tile(columnPerspective, row) != null) && (row <= tileLocation)){
+                    if (null == tile(columnPerspective, tileLocation)){
+                        board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
+                    } else if (tile(columnPerspective, tileLocation).value() == tile(columnPerspective, row).value()) {
+                        board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
+                        tileLocation += 1;
+                    }
+                    else {
+                        tileLocation +=1;
+                        board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
+                    }
+                    //moveLocation(tileLocation, row, columnPerspective);
                 }
             }
         }
         this.board.setViewingPerspective(Side.NORTH);
         checkGameOver();
     }
+    /*
     public void moveLocation(int tileLocation, int row, int columnPerspective){
         if (null == tile(columnPerspective, tileLocation)){
             board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
         }
 
-    }
+    }*/
 
 
 
