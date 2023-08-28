@@ -220,8 +220,6 @@ public class Model {
                     if (null == tile(columnPerspective, tileLocation)) {
                         board.move(columnPerspective, tileLocation, tile(columnPerspective, row));
                     } else if (tile(columnPerspective, tileLocation) != null) {
-                        System.out.println(tileLocation);
-                        System.out.println(row);
                         if (tile(columnPerspective, tileLocation).value() == tile(columnPerspective, row).value()) {
                             board.move(columnPerspective, tileLocation, tile(columnPerspective, row));
                             MaxScore.add(tile(columnPerspective, tileLocation).value());
@@ -236,8 +234,8 @@ public class Model {
             }
         }
         int total = this.score();
-        for (int i = 0; i < MaxScore.size(); i++) {
-            total = total + MaxScore.get(i);
+        for (Integer integer : MaxScore) {
+            total = total + integer;
         }
         this.score = total;
         this.board.setViewingPerspective(Side.NORTH);
