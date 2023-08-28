@@ -207,28 +207,23 @@ public class Model {
     public void tilt(Side side) {
         // TODO: Modify this.board (and if applicable, this.score) to account
         this.board.setViewingPerspective(side);
+        int tileLocation = this.board.size() - 1;
         for (int columnPerspective = 0; columnPerspective < this.board.size(); columnPerspective++){
-            int tileLocation = 0;
-            for (int row = 0; row < this.board.size();row++){
-                if(tile(columnPerspective,row) != null && row > tileLocation){
-                    if (null == tile(columnPerspective, tileLocation)) {
-                        board.move(columnPerspective, this.board.size() - 1 - tileLocation, tile(columnPerspective, row));
-                        tileLocation += 1;
-                    } else if (tile(columnPerspective, tileLocation).value() != tile(columnPerspective, row).value()) {
-                        tileLocation += 1;
-                        board.move(columnPerspective, this.board.size() - 1 - tileLocation, tile(columnPerspective,row));
-                    }
-                    else {
-                        board.move(columnPerspective, this.board.size() - 1 - tileLocation, tile(columnPerspective,row));
-                        tileLocation += 1;
-                    }
+            for (int row = this.board.size() - 1; row >= 0; row--){
+                if(tile(columnPerspective,row) != null && row < tileLocation){
+                    moveLocation(tileLocation, row, columnPerspective);
                 }
             }
         }
         this.board.setViewingPerspective(Side.NORTH);
         checkGameOver();
     }
+    public void moveLocation(int tileLocation, int row, int columnPerspective){
+        if (null == tile(columnPerspective, tileLocation)){
+            board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
+        }
 
+    }
 
 
 
