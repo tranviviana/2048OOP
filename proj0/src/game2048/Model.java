@@ -2,6 +2,7 @@ package game2048;
 
 import java.lang.reflect.Array;
 import java.util.Formatter;
+import java.util.List;
 
 
 /** The state of a game of 2048.
@@ -208,8 +209,10 @@ public class Model {
         // TODO: Modify this.board (and if applicable, this.score) to account
         this.board.setViewingPerspective(side);
 
+
         for (int columnPerspective = 0; columnPerspective < this.board.size(); columnPerspective++){
             int tileLocation = this.board.size() - 1;
+
             for (int row = this.board.size() - 1; row >= 0; row--){
                 if((tile(columnPerspective, row) != null) && (row < tileLocation)){
                     if (null == tile(columnPerspective, tileLocation)){
@@ -219,9 +222,10 @@ public class Model {
                         System.out.println(tileLocation);
                         System.out.println(row);
                         if (tile(columnPerspective, tileLocation).value() == tile(columnPerspective, row).value()) {
+
                             board.move(columnPerspective, tileLocation , tile(columnPerspective, row));
                             tileLocation -= 1;
-                            this.score = tile(columnPerspective, tileLocation + 1).value();
+
                         }
                         else if (tile(columnPerspective, tileLocation).value() != tile(columnPerspective, row).value()) {
                             tileLocation -= 1;
