@@ -221,6 +221,7 @@ public class Model {
                         if (tile(columnPerspective, tileLocation).value() == tile(columnPerspective, row).value()) {
                             board.move(columnPerspective, tileLocation , tile(columnPerspective, row));
                             tileLocation -= 1;
+                            this.score = tile(columnPerspective, tileLocation + 1).value();
                         }
                         else if (tile(columnPerspective, tileLocation).value() != tile(columnPerspective, row).value()) {
                             tileLocation -= 1;
