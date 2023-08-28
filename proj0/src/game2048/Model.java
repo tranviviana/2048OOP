@@ -214,14 +214,15 @@ public class Model {
                 if((tile(columnPerspective, row) != null) && (row <= tileLocation)){
                     if (null == tile(columnPerspective, tileLocation)){
                         board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
-                    } else if (tile(columnPerspective, tileLocation).value() == tile(columnPerspective, row).value()) {
+                    }  else if (tile(columnPerspective, tileLocation).value() == tile(columnPerspective, row).value()) {
                         board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
                         tileLocation += 1;
                     }
-                    else {
+                    else if (tile(columnPerspective, tileLocation).value() != tile(columnPerspective, row).value()){
                         tileLocation +=1;
                         board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
                     }
+                    
                     //moveLocation(tileLocation, row, columnPerspective);
                 }
             }
