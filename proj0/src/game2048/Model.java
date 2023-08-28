@@ -206,36 +206,28 @@ public class Model {
   */
     public void tilt(Side side) {
         // TODO: Modify this.board (and if applicable, this.score) to account
-        //work top left corner down and across
+
 
         this.board.setViewingPerspective(side);
-        for (int nonMovingColumns = 0; nonMovingColumns < this.board.size(); nonMovingColumns++) {
-            findingTile(nonMovingColumns, 0);
+
+        int tileLocation = 0;
+        for (int columnPerspective = 0; columnPerspective < this.board.size(); columnPerspective++){
+            for (int row = 0; row < this.board.size();row++){
+                if(tile(columnPerspective,row) != null && row > tileLocation){
+                    moveLocation(tileLocation, row, columnPerspective);
+                }
+            }
         }
+        this.board.setViewingPerspective(Side.NORTH);
+        checkGameOver();
     }
-    public void findingTile(int nonMovingColumns, int startingRow){
-        int tileRow = 0;
-        while (startingRow< board.size()){
-            while (tileRow < this.board.size() && this.board.tile(tileRow,nonMovingColumns) != null){
-                tileRow += 1;
-            }
-            if (this.board.tile(startingRow,nonMovingColumns) == null){
-                moveTile(startingRow, nonMovingColumns, tile(tileRow, nonMovingColumns));
-            }
-            else if (this.board.tile(startingRow,nonMovingColumns) != null) {
-                Tile t = moveTile(startingRow, nonMovingColumns, tile(tileRow, nonMovingColumns));
-            }
-            startingRow+=1;
-            tileRow = startingRow + 1;
+    public void moveLocation(int tileLocation, int row, int columnPerspective){
+        if (null == tile(columnPerspective, tileLocation)){
+            board.move(columnPerspective, tileLocation, tile(columnPerspective,row));
         }
+
     }
-    public Tile moveTile(int futureRow,int column, Tile movingTile){
-        int gameRow = column;
-        int gameColumn = this.board.size() - 1 - futureRow;
-        Tile t = tile(gameRow, gameColumn);
-        this.board.move(gameRow, gameColumn,t);
-        return t;
-    }
+
 
 
     @Override
