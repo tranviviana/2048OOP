@@ -1,6 +1,5 @@
 package game2048;
 
-import java.lang.reflect.Array;
 import java.util.Formatter;
 
 
@@ -170,7 +169,7 @@ public class Model {
     }
 
     public static int[] nextTile(Board b,int row, int column, boolean notMovingColumn){
-        while (b.tile(row,column) == null && row < b.size() && column < b.size()){
+        while ((b.tile(row, column) == null) && (row < b.size()) && (column < b.size())){
             if (notMovingColumn){
                 row++;
             }
@@ -178,15 +177,12 @@ public class Model {
                 column++;
             }
         }
-        return new int[]{row,column};
+        if ((b.tile(row, column)) != null){
+
+            return new int[]{row,column};
+        }
+        return null;
     }
-
-
-
-
-
-
-
 
     /** Tilt the board toward SIDE.
      *
@@ -213,18 +209,37 @@ public class Model {
   */
     public void tilt(Side side) {
         // TODO: Modify this.board (and if applicable, this.score) to account
-        int row = 0;
         this.board.setViewingPerspective(side);
-        for (int nonMovingColumns = 0; nonMovingColumns < this.board.size(); nonMovingColumns++) {
-            if (tile(row, nonMovingColumns) != null && row != 0) {
-            }
+        for (int nonMovingColumn = 0; nonMovingColumn < this.board.size()-1; nonMovingColumn++ ){
+            System.out.println(nonMovingColumn);
+            columnHandler(nonMovingColumn);
         }
+        this.board.setViewingPerspective(Side.NORTH);
+        checkGameOver();
     }
-    public static int[] convertToGrid (int[] oldLocation, int[] newLocation){
-        int[] test = {1,2};
-        return test;
-            }
+    public void columnHandler(int nonMovingColumn){
+        int row = 0;
+        Tile tile = existingTile(this.board, row, nonMovingColumn);
+        }
 
+    public static Tile existingTile(Board b, int tileRow, int nonMovingColumn){
+        while (b.tile(tileRow,nonMovingColumn) == null){
+            System.out.println(b.tile(tileRow,nonMovingColumn));
+            System.out.println(tileRow);
+            System.out.println("in loop");
+            tileRow += 1;
+        }
+        if (b.tile(tileRow,nonMovingColumn) != null){
+            System.out.println("there exists a tile in this column");
+            System.out.println(tileRow);
+            return b.tile(tileRow,nonMovingColumn);
+        }
+        return null;
+    }
+    public void mover(int row, int nonMovingColumn, Tile existingTile){
+        int gameColumn = this.board.size() - row;
+        this.board.move(nonMovingColumn, gameColumn, existingTile);
+    }
     @Override
     public String toString() {
         Formatter out = new Formatter();
